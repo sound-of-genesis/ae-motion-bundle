@@ -4933,6 +4933,8 @@
     const pile = document.createElement("div");
     pile.className = "ae-collage";
     pile.setAttribute("aria-hidden", "true");
+    pile.style.cssText = "position:absolute;inset:0;z-index:1;pointer-events:none";
+    if (getComputedStyle(hero2).position === "static") hero2.style.position = "relative";
     hero2.prepend(pile);
     let scene = await buildScene(hero2, pile, opts, { animate: opts.animate });
     let resizeTimer = 0;
@@ -4972,6 +4974,7 @@
     const canvas = document.createElement("canvas");
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
+    canvas.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block";
     pile.appendChild(canvas);
     const ctx = canvas.getContext("2d");
     const imgs = await Promise.all(
