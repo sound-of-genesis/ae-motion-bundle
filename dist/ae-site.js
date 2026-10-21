@@ -5016,11 +5016,15 @@
     const kids = [...copy.children].map((el) => el.getBoundingClientRect()).concat([...range.getClientRects()]);
     const textBottom = Math.max(...kids.map((r) => r.bottom)) - hb.top;
     if (!mobile) {
-      const left = Math.min(...kids.map((r) => r.left)) - hb.left - 16;
-      const right = Math.max(...kids.map((r) => r.right)) - hb.left + 90;
+      const textLeft = Math.min(...kids.map((r) => r.left)) - hb.left;
+      const textRight = Math.max(...kids.map((r) => r.right)) - hb.left;
+      const copyOnRight = (textLeft + textRight) / 2 > W / 2;
+      const left = textLeft - (copyOnRight ? 60 : 16);
+      const right = textRight + 90;
       const top = Math.min(...kids.map((r) => r.top)) - hb.top - 16;
       statics.push(Bodies.rectangle((left + right) / 2, (top + H) / 2, right - left, H - top, { isStatic: true }));
-      spawnMin = Math.min(right + 80, W - 160);
+      if (copyOnRight) spawnMax = Math.max(left - 80, 160);
+      else spawnMin = Math.min(right + 80, W - 160);
     }
     Composite.add(engine.world, statics);
     const items = list.map((m, i) => {
