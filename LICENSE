@@ -1,0 +1,9 @@
+Copyright (c) 2026 Artist Evolve. All rights reserved.
+
+The Artist Evolve code and brand material in this repository are Artist Evolve
+brand property. They are published only so a CDN can serve them to
+artistevolve.io. No licence is granted: you may not copy, modify, distribute
+or reuse them without written permission from Artist Evolve.
+
+Third-party code bundled in dist/ (Matter.js) is used under its own licence;
+see NOTICE.md.
