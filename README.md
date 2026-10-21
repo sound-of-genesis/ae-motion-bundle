@@ -30,6 +30,8 @@ The page tells the script where the stickers are with a map from sticker file na
 
 Without the map, stickers load from `<data-ae-assets>stickers/<file>` (default `assets/`).
 
+A video card is a link with `data-ae-video` set to a YouTube id. It shows the thumbnail until clicked, then swaps in the YouTube player (youtube-nocookie.com); with no script the link opens the video on YouTube.
+
 ## Rights
 
 The Artist Evolve code and everything about the Artist Evolve brand in this repository are Artist Evolve brand property. All rights reserved; no licence is granted to copy, modify or reuse them. See `LICENSE`. Matter.js keeps its own MIT licence (`NOTICE.md`).

@@ -5309,6 +5309,18 @@
       collage = c;
     });
   }
+  document.querySelectorAll("a[data-ae-video]").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const frame = document.createElement("iframe");
+      frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(link.dataset.aeVideo)}?autoplay=1&rel=0`;
+      frame.title = link.getAttribute("aria-label") || "Video";
+      frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      frame.allowFullscreen = true;
+      frame.style.cssText = "position:absolute;inset:0;width:100%;height:100%;border:0";
+      link.replaceWith(frame);
+    }, { once: true });
+  });
   var toggle = document.querySelector("[data-ae-motion-toggle]");
   function showToggle() {
     if (!toggle || !canMove) return;
