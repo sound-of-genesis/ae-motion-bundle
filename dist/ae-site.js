@@ -29,9 +29,9 @@
     mod
   ));
 
-  // ../node_modules/matter-js/build/matter.js
+  // node_modules/matter-js/build/matter.js
   var require_matter = __commonJS({
-    "../node_modules/matter-js/build/matter.js"(exports, module) {
+    "node_modules/matter-js/build/matter.js"(exports, module) {
       (function webpackUniversalModuleDefinition(root, factory) {
         if (typeof exports === "object" && typeof module === "object")
           module.exports = factory();
@@ -4907,13 +4907,13 @@
     }
   });
 
-  // src/collage.js
+  // site-v1/src/collage.js
   var import_matter_js = __toESM(require_matter(), 1);
 
-  // assets/stickers/stickers.js
+  // site-v1/assets/stickers/stickers.js
   var stickers_default = [{ "name": "brain", "src": "brain-420.webp", "w": 420, "h": 342, "scale": 1.25, "hull": [[0, 0.308], [0.047, 0.212], [0.172, 0.077], [0.328, 0.019], [0.484, 0], [0.719, 0.038], [0.828, 0.135], [0.875, 0.192], [0.984, 0.481], [0.969, 0.635], [0.938, 0.712], [0.781, 0.885], [0.562, 0.981], [0.016, 0.538]], "srcSmall": "brain-260.webp" }, { "name": "microphone", "src": "microphone-420.webp", "w": 286, "h": 420, "scale": 1, "hull": [[0, 0.531], [0.045, 0.422], [0.182, 0.125], [0.273, 0.031], [0.341, 0], [0.705, 0.031], [0.909, 0.141], [0.977, 0.234], [0.977, 0.297], [0.864, 0.562], [0.5, 0.953], [0.455, 0.984], [0.227, 0.953], [0.182, 0.906]], "srcSmall": "microphone-260.webp" }, { "name": "note-atom", "src": "note-atom-420.webp", "w": 382, "h": 420, "scale": 0.9, "hull": [[0, 0.297], [0.017, 0.234], [0.052, 0.203], [0.431, 0.016], [0.466, 0], [0.569, 0.016], [0.931, 0.203], [0.983, 0.266], [0.983, 0.703], [0.966, 0.734], [0.586, 0.953], [0.517, 0.984], [0.431, 0.969], [0.034, 0.75]], "srcSmall": "note-atom-260.webp" }, { "name": "books", "src": "books-420.webp", "w": 420, "h": 378, "scale": 0.95, "hull": [[0, 0.483], [0.031, 0.103], [0.328, 0], [0.547, 0.034], [0.875, 0.121], [0.906, 0.155], [0.984, 0.741], [0.906, 0.793], [0.781, 0.862], [0.547, 0.966], [0.484, 0.983], [0.422, 0.948], [0.156, 0.741], [0.016, 0.621]], "srcSmall": "books-260.webp" }, { "name": "camera", "src": "camera-420.webp", "w": 412, "h": 420, "scale": 0.95, "hull": [[0, 0.906], [0.079, 0.328], [0.19, 0.078], [0.254, 0.016], [0.444, 0], [0.905, 0.047], [0.937, 0.062], [0.968, 0.109], [0.984, 0.156], [0.984, 0.5], [0.968, 0.531], [0.222, 0.984], [0.079, 0.953], [0.016, 0.938]], "srcSmall": "camera-260.webp" }, { "name": "bulb", "src": "bulb-420.webp", "w": 241, "h": 420, "scale": 0.85, "hull": [[0, 0.219], [0.027, 0.172], [0.108, 0.094], [0.162, 0.062], [0.297, 0.016], [0.378, 0], [0.676, 0.016], [0.757, 0.047], [0.919, 0.141], [0.973, 0.219], [0.973, 0.328], [0.595, 0.953], [0.486, 0.984], [0.27, 0.891]], "srcSmall": "bulb-260.webp" }, { "name": "butterfly", "src": "butterfly-420.webp", "w": 420, "h": 318, "scale": 0.9, "hull": [[0, 0.062], [0.812, 0], [0.875, 0], [0.922, 0.083], [0.938, 0.188], [0.984, 0.583], [0.969, 0.771], [0.953, 0.812], [0.938, 0.833], [0.891, 0.875], [0.391, 0.979], [0.281, 0.979], [0.219, 0.896], [0.188, 0.833]], "srcSmall": "butterfly-260.webp" }, { "name": "heart", "src": "heart-420.webp", "w": 255, "h": 420, "scale": 0.8, "hull": [[0, 0.516], [0.154, 0.062], [0.282, 0.016], [0.462, 0], [0.59, 0.031], [0.974, 0.391], [0.974, 0.469], [0.769, 0.828], [0.692, 0.906], [0.641, 0.938], [0.538, 0.984], [0.41, 0.953], [0.154, 0.797], [0.051, 0.688]], "srcSmall": "heart-260.webp" }, { "name": "open-head", "src": "open-head-420.webp", "w": 420, "h": 350, "scale": 1, "hull": [[0, 0.792], [0.25, 0.113], [0.281, 0.038], [0.297, 0.019], [0.828, 0], [0.875, 0], [0.891, 0.075], [0.984, 0.774], [0.984, 0.981], [0, 0.981]], "srcSmall": "open-head-260.webp" }, { "name": "folder", "src": "folder-420.webp", "w": 386, "h": 420, "scale": 0.85, "hull": [[0, 0.312], [0.017, 0.266], [0.051, 0.234], [0.492, 0.062], [0.712, 0], [0.763, 0], [0.983, 0.141], [0.966, 0.5], [0.949, 0.703], [0.881, 0.75], [0.237, 0.984], [0.169, 0.953], [0.153, 0.938], [0.034, 0.5]], "srcSmall": "folder-260.webp" }, { "name": "squeegee", "src": "squeegee-420.webp", "w": 420, "h": 360, "scale": 0.9, "hull": [[0, 0.291], [0.016, 0.255], [0.062, 0.236], [0.812, 0.018], [0.891, 0], [0.969, 0.036], [0.984, 0.073], [0.969, 0.818], [0.953, 0.873], [0.938, 0.909], [0.844, 0.982], [0.578, 0.873], [0.031, 0.4], [0.016, 0.382]], "srcSmall": "squeegee-260.webp" }, { "name": "anatomic-heart", "src": "anatomic-heart-420.webp", "w": 278, "h": 420, "scale": 0.85, "hull": [[0, 0.484], [0.214, 0.047], [0.31, 0], [0.81, 0.031], [0.929, 0.109], [0.976, 0.203], [0.952, 0.781], [0.905, 0.859], [0.786, 0.953], [0.69, 0.984], [0.548, 0.984], [0.405, 0.938], [0.238, 0.859], [0.095, 0.75]], "srcSmall": "anatomic-heart-260.webp" }];
 
-  // src/paper.js
+  // site-v1/src/paper.js
   function mulberry32(seed) {
     let a = seed >>> 0;
     return function() {
@@ -4924,7 +4924,7 @@
     };
   }
 
-  // src/collage.js
+  // site-v1/src/collage.js
   var mobileQuery = matchMedia("(max-width: 760px)");
   var MOBILE_SET = /* @__PURE__ */ new Set(["microphone", "books", "camera", "butterfly", "heart", "note-atom", "bulb", "brain"]);
   var SEED = 20261018;
@@ -5223,7 +5223,229 @@
     };
   }
 
-  // src/ae-site.js
+  // site-v1/src/constellation.js
+  var mobileQuery2 = matchMedia("(max-width: 767px)");
+  var MOBILE_SET2 = /* @__PURE__ */ new Set(["microphone", "books", "camera", "butterfly", "heart", "note-atom", "bulb"]);
+  var SEED2 = 20261026;
+  var SLOTS_DESKTOP = [
+    { x: -0.82, y: -0.6, d: 1.1, r: -0.2 },
+    { x: -0.5, y: -0.8, d: 0.8, r: 0.15 },
+    { x: -0.9, y: 0.06, d: 1.25, r: 0.1 },
+    { x: -0.56, y: -0.24, d: 0.85, r: -0.12 },
+    { x: -0.76, y: 0.64, d: 1, r: 0.2 },
+    { x: 0.5, y: -0.78, d: 0.85, r: -0.1 },
+    { x: 0.85, y: -0.5, d: 1.2, r: 0.18 },
+    { x: 0.58, y: -0.16, d: 0.9, r: 0.1 },
+    { x: 0.9, y: 0.22, d: 1.05, r: -0.15 },
+    { x: 0.72, y: 0.68, d: 1.15, r: 0.12 },
+    { x: -0.28, y: 0.84, d: 0.8, r: -0.08 }
+  ];
+  var SLOTS_MOBILE = [
+    { x: -0.74, y: -0.66, d: 1, r: -0.18 },
+    { x: 0.7, y: -0.72, d: 0.9, r: 0.14 },
+    { x: -0.84, y: -0.32, d: 0.85, r: 0.1 },
+    { x: 0.86, y: -0.4, d: 1, r: -0.12 },
+    { x: -0.7, y: 0.72, d: 1.1, r: 0.16 },
+    { x: 0.06, y: 0.86, d: 0.85, r: -0.06 },
+    { x: 0.74, y: 0.68, d: 1, r: 0.12 }
+  ];
+  var clamp01 = (v) => Math.min(1, Math.max(0, v));
+  var ease = (u) => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+  var lerp = (a, b, u) => a + (b - a) * u;
+  var REST_T = 0.8;
+  function mountConstellation(section, { assetsBase: assetsBase2, stickerUrls: stickerUrls2, live }) {
+    const stage = section.querySelector("[data-ae-constellation-stage]") || section;
+    const core = section.querySelector("[data-ae-constellation-core]");
+    const text = section.querySelector("[data-ae-constellation-text]");
+    const layer = document.createElement("div");
+    layer.setAttribute("aria-hidden", "true");
+    layer.style.cssText = "position:absolute;inset:0;pointer-events:none;z-index:1";
+    stage.prepend(layer);
+    if (core) {
+      core.style.zIndex = "2";
+      core.style.willChange = "transform";
+    }
+    let items = [], mobile = mobileQuery2.matches, W = 0, H = 0, brainTo = 0, isLive = false, raf = 0, near = false;
+    function build() {
+      layer.replaceChildren();
+      mobile = mobileQuery2.matches;
+      const rand = mulberry32(SEED2);
+      let list = stickers_default.filter((m) => m.name !== "brain" && (!mobile || MOBILE_SET2.has(m.name)));
+      for (let i = list.length - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [list[i], list[j]] = [list[j], list[i]];
+      }
+      const slots = mobile ? SLOTS_MOBILE : SLOTS_DESKTOP;
+      list = list.slice(0, slots.length);
+      items = list.map((m, i) => {
+        const img = new Image();
+        const file = mobile ? m.srcSmall : m.src;
+        img.src = stickerUrls2 && stickerUrls2[file] || `${assetsBase2}stickers/${file}`;
+        img.alt = "";
+        img.decoding = "async";
+        img.draggable = false;
+        img.className = "statement_sticker";
+        img.style.cssText = "position:absolute;left:50%;top:50%;height:auto;will-change:transform;filter:drop-shadow(0 14px 20px rgba(0,0,0,.5))";
+        layer.appendChild(img);
+        const slot = slots[i];
+        return {
+          img,
+          m,
+          slot,
+          // The pile: along the top of the stage, so it enters right under the hero's own pile, overlapping and
+          // turned every which way.
+          x0: (rand() - 0.5) * (mobile ? 1.5 : 1.5),
+          y0: -1.02 + rand() * 0.36,
+          r0: (rand() - 0.5) * 1.4,
+          start: 0.2 + 0.05 * (i % 4) + rand() * 0.03,
+          dur: 0.38 + rand() * 0.06,
+          drift: (rand() - 0.5) * 2
+        };
+      });
+      measure();
+    }
+    function measure() {
+      W = stage.clientWidth;
+      H = stage.clientHeight;
+      const base = mobile ? Math.min(92, W * 0.22) : Math.max(110, Math.min(190, W * 0.105));
+      for (const it of items) it.img.style.width = `${Math.round(base * it.m.scale * it.slot.d)}px`;
+      if (core) core.style.width = `${Math.round(base * 1.3)}px`;
+      if (core && text) {
+        const coreH = core.offsetHeight || base;
+        const textTop = text.getBoundingClientRect().top - stage.getBoundingClientRect().top - (parseFloat(text.dataset.aeTy) || 0);
+        brainTo = textTop - H / 2 - coreH / 2 - (mobile ? 18 : 26);
+      }
+    }
+    function render(t) {
+      const hw = W / 2, hh = H / 2;
+      const drift = clamp01((t - 0.82) / 0.18);
+      for (const it of items) {
+        const u = ease(clamp01((t - it.start) / it.dur));
+        const x = lerp(it.x0, it.slot.x, u) * hw + it.drift * drift * hw * 0.05 * it.slot.d;
+        const y = lerp(it.y0, it.slot.y, u) * hh - drift * hh * 0.07 * it.slot.d;
+        const r = lerp(it.r0, it.slot.r, u);
+        const s = lerp(0.82, 1, u);
+        it.img.style.transform = `translate(-50%,-50%) translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${r.toFixed(3)}rad) scale(${s.toFixed(3)})`;
+      }
+      if (core) {
+        const u = ease(clamp01((t - 0.3) / 0.36));
+        const y = brainTo + (1 - u) * 36;
+        core.style.opacity = String(clamp01(u * 1.6));
+        core.style.transform = `translate(-50%,-50%) translate3d(0,${y.toFixed(1)}px,0) rotate(${lerp(-0.25, 0, u).toFixed(3)}rad) scale(${lerp(0.5, 1, u).toFixed(3)})`;
+      }
+      if (text) {
+        const v = ease(clamp01((t - 0.5) / 0.18));
+        const ty = (1 - v) * 28;
+        text.dataset.aeTy = String(ty);
+        text.style.opacity = String(v);
+        text.style.transform = `translate3d(0,${ty.toFixed(1)}px,0)`;
+      }
+    }
+    function progress() {
+      const r = section.getBoundingClientRect();
+      return clamp01((innerHeight - r.top) / r.height);
+    }
+    function frame() {
+      raf = 0;
+      render(progress());
+    }
+    function onScroll() {
+      if (isLive && near && !raf) raf = requestAnimationFrame(frame);
+    }
+    function setLive(on) {
+      const before = section.getBoundingClientRect().bottom;
+      isLive = on;
+      section.classList.toggle("is-live", on);
+      if (before < 0) {
+        const shift = section.getBoundingClientRect().bottom - before;
+        if (Math.abs(shift) > 1) scrollBy(0, shift);
+      }
+      measure();
+      if (on) render(progress());
+      else render(REST_T);
+    }
+    build();
+    new IntersectionObserver(([e]) => {
+      near = e.isIntersecting;
+      onScroll();
+    }, { rootMargin: "50% 0px" }).observe(section);
+    addEventListener("scroll", onScroll, { passive: true });
+    let resizeTimer = 0;
+    addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (mobileQuery2.matches !== mobile) build();
+        else measure();
+        render(isLive ? progress() : REST_T);
+      }, 150);
+    });
+    setLive(live);
+    return { setLive };
+  }
+
+  // site-v1/src/features.js
+  function mountFeatures(root, { moving: moving2 }) {
+    const items = [...root.querySelectorAll("[data-ae-feature]")];
+    const media = [...root.querySelectorAll("[data-ae-feature-media]")];
+    if (!items.length) return null;
+    let active = 0, manual = false, inView = false;
+    items.forEach((item, i) => {
+      const tab = item.querySelector("[data-ae-feature-tab]");
+      const body = item.querySelector("[data-ae-feature-body]");
+      if (body && !body.id) body.id = `ae-feature-${i + 1}`;
+      if (tab) {
+        if (tab.tagName !== "BUTTON") {
+          tab.setAttribute("role", "button");
+          tab.tabIndex = 0;
+        }
+        if (body) tab.setAttribute("aria-controls", body.id);
+        const pick = (e) => {
+          e.preventDefault();
+          manual = true;
+          open(i);
+        };
+        tab.addEventListener("click", pick);
+        tab.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") pick(e);
+        });
+      }
+      const bar = item.querySelector("[data-ae-feature-bar]");
+      if (bar) bar.addEventListener("animationend", () => {
+        if (i === active && !manual) open((i + 1) % items.length);
+      });
+    });
+    function open(i) {
+      active = i;
+      items.forEach((item, j) => {
+        const on = j === i;
+        item.classList.toggle("is-active", on);
+        const tab = item.querySelector("[data-ae-feature-tab]");
+        if (tab) tab.setAttribute("aria-expanded", String(on));
+        const bar = item.querySelector("[data-ae-feature-bar]");
+        if (bar && on) {
+          bar.style.animation = "none";
+          void bar.offsetWidth;
+          bar.style.animation = "";
+        }
+      });
+      media.forEach((m, j) => m.classList.toggle("is-active", j === i));
+      sync();
+    }
+    function sync() {
+      const auto = !manual && moving2();
+      root.classList.toggle("is-auto", auto);
+      root.classList.toggle("is-held", auto && !inView);
+    }
+    root.classList.add("is-ready");
+    new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting;
+      sync();
+    }, { threshold: 0.35 }).observe(root);
+    open(0);
+    return { sync };
+  }
+
+  // site-v1/src/ae-site.js
   var docEl = document.documentElement;
   docEl.classList.add("ae-js");
   var reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -5250,6 +5472,7 @@
   var canMove = !reducedMotion.matches && !lowPower();
   var paused = readPaused();
   var moving = () => canMove && !paused;
+  docEl.classList.toggle("ae-motion-on", moving());
   var assetsBase = (document.querySelector("[data-ae-assets]") || {}).dataset?.aeAssets || "assets/";
   var stickerUrls = window.AE_STICKER_URLS || null;
   var reveals = [...document.querySelectorAll("[data-ae-reveal]")];
@@ -5266,6 +5489,26 @@
   } else {
     reveals.forEach((el) => el.classList.add("is-in"));
   }
+  var draws = [...document.querySelectorAll("[data-ae-draw]")];
+  if ("IntersectionObserver" in window) {
+    const byParent = /* @__PURE__ */ new Map();
+    draws.forEach((el) => byParent.set(el.parentElement, [...byParent.get(el.parentElement) || [], el]));
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          byParent.get(e.target).forEach((el) => el.classList.add("is-drawn"));
+          io.unobserve(e.target);
+        }
+      }
+    }, { threshold: 0.6 });
+    byParent.forEach((_, parent) => io.observe(parent));
+  } else {
+    draws.forEach((el) => el.classList.add("is-drawn"));
+  }
+  var constellations = [...document.querySelectorAll("[data-ae-constellation]")].map(
+    (section) => mountConstellation(section, { assetsBase, stickerUrls, live: moving() })
+  );
+  var featureLists = [...document.querySelectorAll("[data-ae-features]")].map((root) => mountFeatures(root, { moving })).filter(Boolean);
   var loops = [...document.querySelectorAll("video[data-ae-loop]")];
   var onScreen = /* @__PURE__ */ new WeakMap();
   function loadLoop(v) {
@@ -5339,11 +5582,14 @@
       paused = !paused;
       writePaused(paused);
       showToggle();
+      docEl.classList.toggle("ae-motion-on", moving());
       loops.forEach(syncLoop);
       if (collage) {
         if (paused) collage.freeze();
         else collage.replay();
       }
+      constellations.forEach((c) => c.setLive(moving()));
+      featureLists.forEach((f) => f.sync());
     });
   }
   showToggle();
