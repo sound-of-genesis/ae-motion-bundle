@@ -4951,7 +4951,9 @@
     });
     return {
       freeze: () => scene.freeze(),
-      replay: () => scene.replay()
+      replay: () => scene.replay(),
+      // The live pile, for the constellation beat to lift stickers out of (rebuilt on resize, so read it fresh).
+      handoff: () => scene.handoff
     };
   }
   async function buildScene(hero2, pile, { copy, assetsBase: assetsBase2, stickerUrls: stickerUrls2, isPaused }, { animate }) {
@@ -5044,11 +5046,13 @@
       });
       Body.setAngularVelocity(body, (rand() - 0.5) * 0.05);
       const img = imgs[i];
-      return { body, img, sprite: bake(img, w, h), w, h, centre, spawnAt: i * (mobile ? 170 : 150) };
+      return { name: m.name, scale: m.scale, body, img, sprite: bake(img, w, h), w, h, centre, spawnAt: i * (mobile ? 170 : 150) };
     });
+    let held = false;
     function draw() {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (held) return;
       for (const it of items) {
         if (!it.added) continue;
         const { x, y } = it.body.position;
@@ -5097,6 +5101,7 @@
     }
     let lastFrameAt = 0;
     function run(force = false) {
+      if (held) return;
       if (raf && (force || performance.now() - lastFrameAt > 1e3)) {
         cancelAnimationFrame(raf);
         raf = 0;
@@ -5147,7 +5152,7 @@
       hero2.classList.toggle("is-grabbable", !overUI(e) && Query.point(allBodies(), p).length > 0);
     }
     function onDown(e) {
-      if (e.pointerType === "touch" || e.button !== 0 || overUI(e) || isPaused()) return;
+      if (e.pointerType === "touch" || e.button !== 0 || overUI(e) || isPaused() || held) return;
       const p = local(e);
       const hit = Query.point(allBodies(), p)[0];
       if (!hit) return;
@@ -5188,8 +5193,27 @@
     }, kick: () => run(true), get visible() {
       return visible;
     }, W, H, base, spawnMin, spawnMax };
+    const handoff = {
+      hero: hero2,
+      items,
+      pad: PAD,
+      get held() {
+        return held;
+      },
+      hold(on) {
+        if (on === held) return;
+        held = on;
+        if (on) {
+          running = false;
+          if (raf) cancelAnimationFrame(raf);
+          raf = 0;
+        }
+        draw();
+      }
+    };
     return {
       width: W,
+      handoff,
       freeze() {
         running = false;
         if (raf) cancelAnimationFrame(raf);
@@ -5252,8 +5276,14 @@
   var clamp01 = (v) => Math.min(1, Math.max(0, v));
   var ease = (u) => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
   var lerp = (a, b, u) => a + (b - a) * u;
+  var turn = (a, b) => {
+    const d = ((b - a) % (2 * Math.PI) + 3 * Math.PI) % (2 * Math.PI) - Math.PI;
+    return a + d;
+  };
+  var LIFT_T = 0.06;
+  var BRAIN_START = 0.16;
   var REST_T = 0.8;
-  function mountConstellation(section, { assetsBase: assetsBase2, stickerUrls: stickerUrls2, live }) {
+  function mountConstellation(section, { assetsBase: assetsBase2, stickerUrls: stickerUrls2, live, getCollage = () => null }) {
     const stage = section.querySelector("[data-ae-constellation-stage]") || section;
     const core = section.querySelector("[data-ae-constellation-core]");
     const text = section.querySelector("[data-ae-constellation-text]");
@@ -5265,7 +5295,14 @@
       core.style.zIndex = "2";
       core.style.willChange = "transform";
     }
-    let items = [], mobile = mobileQuery2.matches, W = 0, H = 0, brainTo = 0, isLive = false, raf = 0, near = false;
+    const fly = document.createElement("canvas");
+    fly.setAttribute("aria-hidden", "true");
+    fly.style.cssText = "position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1;display:none";
+    document.body.appendChild(fly);
+    const fctx = fly.getContext("2d");
+    const sticky = stage.parentElement;
+    let items = [], mobile = mobileQuery2.matches, W = 0, H = 0, base = 0, brainTo = 0, isLive = false, raf = 0, near = false;
+    let flight = null;
     function build() {
       layer.replaceChildren();
       mobile = mobileQuery2.matches;
@@ -5292,9 +5329,8 @@
           img,
           m,
           slot,
-          // The pile: along the top of the stage, so it enters right under the hero's own pile, overlapping and
-          // turned every which way.
-          x0: (rand() - 0.5) * (mobile ? 1.5 : 1.5),
+          // Fallback flight (no hero pile): in from just above the stage, turned every which way.
+          x0: (rand() - 0.5) * 1.5,
           y0: -1.02 + rand() * 0.36,
           r0: (rand() - 0.5) * 1.4,
           start: 0.2 + 0.05 * (i % 4) + rand() * 0.03,
@@ -5302,12 +5338,13 @@
           drift: (rand() - 0.5) * 2
         };
       });
+      flight = null;
       measure();
     }
     function measure() {
       W = stage.clientWidth;
       H = stage.clientHeight;
-      const base = mobile ? Math.min(92, W * 0.22) : Math.max(110, Math.min(190, W * 0.105));
+      base = mobile ? Math.min(92, W * 0.22) : Math.max(110, Math.min(190, W * 0.105));
       for (const it of items) it.img.style.width = `${Math.round(base * it.m.scale * it.slot.d)}px`;
       if (core) core.style.width = `${Math.round(base * 1.3)}px`;
       if (core && text) {
@@ -5315,8 +5352,73 @@
         const textTop = text.getBoundingClientRect().top - stage.getBoundingClientRect().top - (parseFloat(text.dataset.aeTy) || 0);
         brainTo = textTop - H / 2 - coreH / 2 - (mobile ? 18 : 26);
       }
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      fly.width = Math.round(innerWidth * dpr);
+      fly.height = Math.round(innerHeight * dpr);
     }
-    function render(t) {
+    function planFlight(h) {
+      const brain = h.items.find((it) => it.name === "brain") || null;
+      const others = h.items.filter((it) => it !== brain);
+      const slots = (mobile ? SLOTS_MOBILE : SLOTS_DESKTOP).map((slot, i) => ({ slot, i }));
+      const byX = [...others].sort((a, b) => a.body.position.x - b.body.position.x);
+      const slotsByX = [...slots].sort((a, b) => a.slot.x - b.slot.x);
+      const rand = mulberry32(SEED2 + 1);
+      const pairs = byX.slice(0, slotsByX.length).map((it, k) => {
+        const { slot, i } = slotsByX[k];
+        return { it, slot, start: LIFT_T + 0.035 * (i % 5) + rand() * 0.02, dur: 0.4 + rand() * 0.06, drift: (rand() - 0.5) * 2 };
+      });
+      return { h, pairs, brain };
+    }
+    function drawSprite(it, x, y, angle, scale, pad) {
+      fctx.save();
+      fctx.translate(x, y);
+      fctx.rotate(angle);
+      fctx.scale(scale, scale);
+      fctx.drawImage(it.sprite, -it.centre.x - pad, -it.centre.y - pad, it.w + pad * 2, it.h + pad * 2);
+      fctx.restore();
+    }
+    function renderFlight(t) {
+      const { h, pairs, brain } = flight;
+      const hero2 = h.hero.getBoundingClientRect();
+      const st = stage.getBoundingClientRect();
+      const sec = section.getBoundingClientRect();
+      const hw = W / 2, hh = H / 2;
+      const cx = st.left + hw, cy = st.top + hh;
+      const dpr = fly.width / innerWidth;
+      const scrolledSince = (start2) => Math.max(0, innerHeight - sec.top - start2 * sec.height);
+      fctx.setTransform(1, 0, 0, 1, 0, 0);
+      fctx.clearRect(0, 0, fly.width, fly.height);
+      fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fctx.save();
+      fctx.beginPath();
+      fctx.rect(0, hero2.top, innerWidth, Math.max(0, st.bottom - hero2.top));
+      for (const el of h.hero.querySelectorAll("[data-ae-video], [data-ae-collage-copy] > *")) {
+        const r = el.getBoundingClientRect();
+        if (r.bottom > hero2.top && r.width && r.height) fctx.rect(r.left, r.top, r.width, r.height);
+      }
+      fctx.clip("evenodd");
+      const drift = clamp01((t - 0.82) / 0.18);
+      for (const p of pairs) {
+        const u = ease(clamp01((t - p.start) / p.dur));
+        const { body } = p.it;
+        const sx = hero2.left + body.position.x, sy = hero2.top + body.position.y + scrolledSince(p.start);
+        const ex = cx + p.slot.x * hw + p.drift * drift * hw * 0.05 * p.slot.d;
+        const ey = cy + p.slot.y * hh - drift * hh * 0.07 * p.slot.d;
+        const lift = Math.sin(Math.PI * u) * (mobile ? 40 : 70) * p.slot.d;
+        const endScale = base * p.it.scale * p.slot.d / p.it.w;
+        drawSprite(p.it, lerp(sx, ex, u), lerp(sy, ey, u) - lift, lerp(body.angle, turn(body.angle, p.slot.r), u), lerp(1, endScale, u), h.pad);
+      }
+      if (brain) {
+        const u = ease(clamp01((t - BRAIN_START) / 0.46));
+        const { body } = brain;
+        const sx = hero2.left + body.position.x, sy = hero2.top + body.position.y + scrolledSince(BRAIN_START);
+        const endScale = base * 1.3 / brain.w;
+        const lift = Math.sin(Math.PI * u) * (mobile ? 30 : 50);
+        drawSprite(brain, lerp(sx, cx, u), lerp(sy, cy + brainTo, u) - lift, lerp(body.angle, turn(body.angle, 0), u), lerp(1, endScale, u), h.pad);
+      }
+      fctx.restore();
+    }
+    function renderDom(t) {
       const hw = W / 2, hh = H / 2;
       const drift = clamp01((t - 0.82) / 0.18);
       for (const it of items) {
@@ -5333,13 +5435,42 @@
         core.style.opacity = String(clamp01(u * 1.6));
         core.style.transform = `translate(-50%,-50%) translate3d(0,${y.toFixed(1)}px,0) rotate(${lerp(-0.25, 0, u).toFixed(3)}rad) scale(${lerp(0.5, 1, u).toFixed(3)})`;
       }
-      if (text) {
-        const v = ease(clamp01((t - 0.5) / 0.18));
-        const ty = (1 - v) * 28;
-        text.dataset.aeTy = String(ty);
-        text.style.opacity = String(v);
-        text.style.transform = `translate3d(0,${ty.toFixed(1)}px,0)`;
+    }
+    function renderText(t) {
+      if (!text) return;
+      const v = ease(clamp01((t - 0.5) / 0.18));
+      const ty = (1 - v) * 28;
+      text.dataset.aeTy = String(ty);
+      text.style.opacity = String(v);
+      text.style.transform = `translate3d(0,${ty.toFixed(1)}px,0)`;
+    }
+    function useFlight(on) {
+      layer.style.display = on ? "none" : "";
+      if (core) core.style.visibility = on ? "hidden" : "";
+      if (sticky) sticky.style.zIndex = on ? "2" : "";
+      if (!on) {
+        fly.style.display = "none";
+        if (flight) flight.h.hold(false);
+        flight = null;
       }
+    }
+    function render(t) {
+      renderText(t);
+      const h = isLive ? getCollage()?.handoff?.() || null : null;
+      if (!h) {
+        useFlight(false);
+        renderDom(isLive ? t : REST_T);
+        return;
+      }
+      if (!flight || flight.h !== h) {
+        if (flight) flight.h.hold(false);
+        flight = planFlight(h);
+      }
+      useFlight(true);
+      const lifting = t > LIFT_T;
+      h.hold(lifting);
+      fly.style.display = lifting && near ? "block" : "none";
+      if (lifting && near) renderFlight(t);
     }
     function progress() {
       const r = section.getBoundingClientRect();
@@ -5347,10 +5478,10 @@
     }
     function frame() {
       raf = 0;
-      render(progress());
+      render(isLive ? progress() : REST_T);
     }
     function onScroll() {
-      if (isLive && near && !raf) raf = requestAnimationFrame(frame);
+      if (isLive && !raf) raf = requestAnimationFrame(frame);
     }
     function setLive(on) {
       const before = section.getBoundingClientRect().bottom;
@@ -5361,14 +5492,13 @@
         if (Math.abs(shift) > 1) scrollBy(0, shift);
       }
       measure();
-      if (on) render(progress());
-      else render(REST_T);
+      render(on ? progress() : REST_T);
     }
     build();
     new IntersectionObserver(([e]) => {
       near = e.isIntersecting;
       onScroll();
-    }, { rootMargin: "50% 0px" }).observe(section);
+    }, { rootMargin: "100% 0px" }).observe(section);
     addEventListener("scroll", onScroll, { passive: true });
     let resizeTimer = 0;
     addEventListener("resize", () => {
@@ -5376,11 +5506,14 @@
       resizeTimer = setTimeout(() => {
         if (mobileQuery2.matches !== mobile) build();
         else measure();
+        flight = null;
         render(isLive ? progress() : REST_T);
       }, 150);
     });
     setLive(live);
-    return { setLive };
+    return { setLive, refresh: () => {
+      if (isLive) onScroll();
+    } };
   }
 
   // site-v1/src/features.js
@@ -5505,8 +5638,9 @@
   } else {
     draws.forEach((el) => el.classList.add("is-drawn"));
   }
+  var collage = null;
   var constellations = [...document.querySelectorAll("[data-ae-constellation]")].map(
-    (section) => mountConstellation(section, { assetsBase, stickerUrls, live: moving() })
+    (section) => mountConstellation(section, { assetsBase, stickerUrls, live: moving(), getCollage: () => collage })
   );
   var featureLists = [...document.querySelectorAll("[data-ae-features]")].map((root) => mountFeatures(root, { moving })).filter(Boolean);
   var loops = [...document.querySelectorAll("video[data-ae-loop]")];
@@ -5542,7 +5676,6 @@
       io.observe(v);
     });
   }
-  var collage = null;
   var hero = document.querySelector("[data-ae-collage]");
   function startCollage() {
     if (!hero) return;
@@ -5554,6 +5687,7 @@
       isPaused: () => paused
     }).then((c) => {
       collage = c;
+      constellations.forEach((k) => k.refresh());
     });
   }
   document.querySelectorAll("a[data-ae-video]").forEach((link) => {
